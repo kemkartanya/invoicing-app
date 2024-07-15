@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaSave, FaPlus } from "react-icons/fa";
+import { FaEdit, FaSave } from "react-icons/fa";
+import { inputs } from "../App";
 
 const EditableTable = ({ data, setData }) => {
   const [editingRow, setEditingRow] = useState(null);
@@ -51,13 +52,12 @@ const EditableTable = ({ data, setData }) => {
           <thead>
             <tr>
               <th className="px-4 py-2 border-b">S. No.</th>
-              <th className="px-4 py-2 border-b">Quantity</th>
-              <th className="px-4 py-2 border-b">Price</th>
-              <th className="px-4 py-2 border-b">Discount %</th>
-              <th className="px-4 py-2 border-b">Discount</th>
-              <th className="px-4 py-2 border-b">Tax %</th>
-              <th className="px-4 py-2 border-b">Tax</th>
-              <th className="px-4 py-2 border-b">Total Price</th>
+              {inputs.map((input, index) => (
+                <th key={index} className="px-4 py-2 border-b">
+                  {input.label}
+                </th>
+              ))}
+
               <th className="px-4 py-2 border-b">Actions</th>
             </tr>
           </thead>
@@ -65,100 +65,22 @@ const EditableTable = ({ data, setData }) => {
             {data.map((row) => (
               <tr key={row.id}>
                 <td className="px-4 py-2 border-b">{row.id}</td>
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="number"
-                      value={editedData.qty || row.qty}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="qty"
-                    />
-                  ) : (
-                    row.qty
-                  )}
-                </td>
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="text"
-                      value={editedData.price || row.price}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="price"
-                    />
-                  ) : (
-                    row.price
-                  )}
-                </td>
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="text"
-                      value={editedData.discountPercent || row.discountPercent}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="discountPercent"
-                    />
-                  ) : (
-                    row.discountPercent
-                  )}
-                </td>
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="text"
-                      value={editedData.discount || row.discount}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="discount"
-                    />
-                  ) : (
-                    row.discount
-                  )}
-                </td>
 
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="text"
-                      value={editedData.taxPercent || row.taxPercent}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="taxPercent"
-                    />
-                  ) : (
-                    row.taxPercent
-                  )}
-                </td>
-
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="text"
-                      value={editedData.tax || row.tax}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="tax"
-                    />
-                  ) : (
-                    row.tax
-                  )}
-                </td>
-
-                <td className="px-4 py-2 border-b">
-                  {editingRow === row.id ? (
-                    <input
-                      type="text"
-                      value={editedData.totalPrice || row.totalPrice}
-                      onChange={handleInputChange}
-                      className="w-full p-1 border rounded"
-                      name="totalPrice"
-                    />
-                  ) : (
-                    row.totalPrice
-                  )}
-                </td>
+                {inputs.map((input, index) => (
+                  <td key={index} className="px-4 py-2 border-b">
+                    {editingRow === row.id ? (
+                      <input
+                        type="number"
+                        value={editedData[input.value] || row[input.value]}
+                        onChange={handleInputChange}
+                        className="w-full p-1 border rounded"
+                        name={input.value}
+                      />
+                    ) : (
+                      row[input.value]
+                    )}
+                  </td>
+                ))}
 
                 <td className="px-4 py-2 border-b">
                   {editingRow === row.id ? (
@@ -205,104 +127,23 @@ const EditableTable = ({ data, setData }) => {
                 </button>
               )}
             </div>
-            <div className="mb-2">
-              <strong>Quantity:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.qty || row.qty}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="qty"
-                />
-              ) : (
-                row.qty
-              )}
-            </div>
-            <div>
-              <strong>Price:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.price || row.price}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="price"
-                />
-              ) : (
-                row.price
-              )}
-            </div>
-            <div>
-              <strong>Discount Percent:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.discountPercent || row.discountPercent}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="discountPercent"
-                />
-              ) : (
-                row.discountPercent
-              )}
-            </div>
-            <div>
-              <strong>Discount:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.discount || row.discount}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="discount"
-                />
-              ) : (
-                row.discount
-              )}
-            </div>
-            <div>
-              <strong>Tax Percent:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.taxPercent || row.taxPercent}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="taxPercent"
-                />
-              ) : (
-                row.taxPercent
-              )}
-            </div>
-            <div>
-              <strong>Tax:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.tax || row.tax}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="tax"
-                />
-              ) : (
-                row.tax
-              )}
-            </div>
-            <div>
-              <strong>Total Price:</strong>{" "}
-              {editingRow === row.id ? (
-                <input
-                  type="text"
-                  value={editedData.totalPrice || row.totalPrice}
-                  onChange={handleInputChange}
-                  className="w-full p-1 border rounded mt-1 bg-black text-white"
-                  name="totalPrice"
-                />
-              ) : (
-                row.totalPrice
-              )}
-            </div>
+
+            {inputs.map((input, index) => (
+              <div key={index} className="mb-2">
+                <strong>{input.label}:</strong>{" "}
+                {editingRow === row.id ? (
+                  <input
+                    type="text"
+                    value={editedData[input.value] || row[input.value]}
+                    onChange={handleInputChange}
+                    className="w-full p-1 border rounded mt-1 bg-black text-white"
+                    name={input.value}
+                  />
+                ) : (
+                  row[input.value]
+                )}
+              </div>
+            ))}
           </div>
         ))}
       </div>

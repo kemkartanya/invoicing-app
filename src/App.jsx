@@ -2,6 +2,16 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import EditableTable from "./components/EditableTable";
 
+export const inputs = [
+  { label: "Quantity", value: "qty" },
+  { label: "Price", value: "price" },
+  { label: "Discount %", value: "discountPercent" },
+  { label: "Discount", value: "discount" },
+  { label: "Tax %", value: "taxPercent" },
+  { label: "Tax", value: "tax" },
+  { label: "Total Price", value: "totalPrice" },
+];
+
 function App() {
   const [invoice, setInvoice] = useState({
     qty: "",
@@ -91,93 +101,20 @@ function App() {
 
       <form onSubmit={addNewInvoice} className="flex flex-col gap-5 m-12">
         <div className="grid md:grid-cols-3 grid-cols-1 gap-3">
-          <div>
-            <strong>Quantity</strong> <br />
-            <input
-              value={invoice.qty}
-              onChange={handleInputChange}
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              type="number"
-              name="qty"
-              required
-              placeholder="i.e. 10"
-            />
-          </div>
-          <div>
-            <strong>Price</strong> <br />
-            <input
-              value={invoice.price}
-              onChange={handleInputChange}
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              type="number"
-              placeholder="in Rs."
-              required
-              name="price"
-            />
-          </div>
-          <div>
-            <strong>Discount %</strong> <br />
-            <input
-              value={invoice.discountPercent}
-              onChange={handleInputChange}
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              type="number"
-              name="discountPercent"
-              required
-              placeholder="in %"
-            />
-          </div>
-
-          <div>
-            <strong>Discount</strong> <br />
-            <input
-              value={invoice.discount}
-              onChange={handleInputChange}
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              type="number"
-              name="discount"
-              required
-              placeholder="i.e. 100"
-            />
-          </div>
-
-          <div>
-            <strong>Tax %</strong> <br />
-            <input
-              value={invoice.taxPercent}
-              onChange={handleInputChange}
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              type="number"
-              name="taxPercent"
-              required
-              placeholder="in %"
-            />
-          </div>
-
-          <div>
-            <strong>Tax</strong> <br />
-            <input
-              value={invoice.tax}
-              onChange={handleInputChange}
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              type="number"
-              name="tax"
-              required
-              placeholder="i.e. 90"
-            />
-          </div>
-
-          <div>
-            <label>Total Price:</label>
-            <input
-              type="number"
-              name="totalPrice"
-              required
-              className="bg-black text-white border rounded p-1 w-full mt-1"
-              value={invoice.totalPrice}
-              onChange={handleInputChange}
-            />
-          </div>
+          {inputs.map((input, index) => (
+            <div key={index}>
+              <strong>{input.label}</strong> <br />
+              <input
+                value={invoice[input.value]}
+                onChange={handleInputChange}
+                className="bg-black text-white border rounded p-1 w-full mt-1"
+                type="number"
+                name={input.value}
+                required
+                placeholder={`i.e. ${input.label}`}
+              />
+            </div>
+          ))}
         </div>
         <div className="flex justify-end">
           <button
